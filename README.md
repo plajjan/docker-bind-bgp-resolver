@@ -7,6 +7,20 @@ This container runs BIND set up as a resolver. It listens on both IPv4 and IPv6.
 
 **NOTE**: This thing doesn't speak BGP just yet....
 
+Rate limiting
+-------------
+Queries are rate limited using BIND's RRL functionality. The
+responses-per-second is set to 10 which means that clients are limited to 10
+identical (query name and type) queries per second, which is fairly high. RRL
+stats are kept per IPv4 host (/32) and per /56 subnet for IPv6, i.e. it is
+assumed that each customer has a /56 and their own IPv4 address. If customers
+are given some other IPv6 prefix length than /56 or if multiple clients share
+the same IPv4 address (such as through NAT) then you might want to tweak these
+settings. The table size config is optimized for running this thing in a large
+scale deployment with a maximum of 16 million entries (consuming roughly
+1.3GB).
+
+
 Running
 -------
 Run the container with the following. GOODCLIENTS specify which networks clients are allowed to query from.

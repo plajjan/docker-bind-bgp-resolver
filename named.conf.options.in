@@ -14,4 +14,12 @@ options {
 
 	recursion yes;
 	allow-query { goodclients; };
+
+	rate-limit {
+		min-table-size 100000;
+		max-table-size 16777216; # should grow to something like 1.3GB max
+		ipv4-prefix-length 32;
+		ipv6-prefix-length 56;
+		responses-per-second 10;
+	}
 };
